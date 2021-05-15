@@ -1,0 +1,41 @@
+package app;
+
+import app.menu.ControlBar;
+import app.menu.TemplateBar;
+
+import javax.swing.*;
+import java.awt.*;
+
+
+/*TODO залить все на git и разобраться с ним
+ */
+
+public class MainFrame extends JFrame {
+	GameCanvas gameCanvas;
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(MainFrame::new);
+	}
+	
+	public MainFrame() {
+		super("Live Game");
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		gameCanvas = new GameCanvas();
+		gameCanvas.setPreferredSize(new Dimension(Config.WIDTH * Config.CELL_SIZE,
+												  Config.HEIGHT * Config.CELL_SIZE));
+		ControlBar controlBar = new ControlBar(gameCanvas);
+		TemplateBar templateBar = new TemplateBar();
+		
+		add(BorderLayout.CENTER, gameCanvas);
+		add(BorderLayout.PAGE_START, controlBar);
+		add(BorderLayout.LINE_START, templateBar);
+		
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+		
+		gameCanvas.requestFocus();
+		gameCanvas.init();
+	}
+}
