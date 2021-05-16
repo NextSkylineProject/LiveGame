@@ -22,10 +22,12 @@ public class KeyHandler implements KeyListener {
 				if (gameCanvas.isRun()) {gameCanvas.pauseGame();} else {gameCanvas.resumeGame();}
 			}
 			case 61 -> {
-//				gameCanvas.setOneFrameTime(gameCanvas.getOneFrameTime() - 20);
+				gameCanvas.getCamera().scale(0.1);
+				gameCanvas.repaint();
 			}
 			case 45 -> {
-//				gameCanvas.setOneFrameTime(gameCanvas.getOneFrameTime() + 20);
+				gameCanvas.getCamera().scale(-0.1);
+				gameCanvas.repaint();
 			}
 		}
 	}

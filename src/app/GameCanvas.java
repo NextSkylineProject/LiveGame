@@ -27,14 +27,17 @@ public class GameCanvas extends JComponent implements Runnable {
 		gameSteps = 0;
 		run = false;
 		gameThread = new Thread(this);
-		camera = new Camera(new Dimension(MainFrame.WIDTH, MainFrame.HEIGHT));
-//		camera.setPos(this.WIDTH / 2, this.HEIGHT / 2);
+		camera = new Camera(new Dimension(Config.WIDTH * Config.CELL_SIZE,
+										  Config.HEIGHT * Config.CELL_SIZE));
+		camera.setPos((Config.WIDTH * Config.CELL_SIZE) / 2,
+					  (Config.HEIGHT * Config.CELL_SIZE) / 2);
 		mouseHandler = new MouseHandler(this);
 		
 		//todo нужно ли добавлять листенеры тут или надо перенести в майнФрейм???
 		addKeyListener(new KeyHandler(this));
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);
+		addMouseWheelListener(mouseHandler);
 		
 		initCells();
 	}

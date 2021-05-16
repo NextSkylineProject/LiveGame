@@ -37,9 +37,11 @@ public class ControlBar extends JPanel {
 		JButton btnPlay = new JButton(new BtnAction());
 		btnPlay.setName(BTN_PLAY);
 		btnPlay.setText("Play");
+		btnPlay.setFocusable(false);
 		JButton btnStep = new JButton(new BtnAction());
 		btnStep.setName(BTN_STEP);
 		btnStep.setText("One step");
+		btnStep.setFocusable(false);
 		
 		add(Box.createHorizontalStrut(5));
 		add(labelStep);

@@ -1,11 +1,9 @@
 package app;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
-public class MouseHandler implements MouseListener, MouseMotionListener {
+public class MouseHandler implements MouseListener, MouseMotionListener, MouseWheelListener {
 	private final GameCanvas gameCanvas;
 	private int mouseX = 0;
 	private int mouseY = 0;
@@ -44,6 +42,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	public void mouseReleased(MouseEvent e) {
 		if (!gameCanvas.isRun() && !dragged) {
 			gameCanvas.getCell(cellX, cellY).setAlive(!gameCanvas.getCell(cellX, cellY).isAlive());
+			gameCanvas.repaint();
 		}
 	}
 	
@@ -55,6 +54,19 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 	
+	}
+	
+	// MouseWheelListener
+	
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		if (e.getPreciseWheelRotation() < -0.4) {
+			gameCanvas.getCamera().scale(0.02d);
+			gameCanvas.repaint();
+		} else if (e.getPreciseWheelRotation() > 0.4) {
+			gameCanvas.getCamera().scale(-0.02d);
+			gameCanvas.repaint();
+		}
 	}
 	
 	// MouseMoveListener
