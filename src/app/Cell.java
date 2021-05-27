@@ -8,20 +8,19 @@ public class Cell {
 	private int nearbyLivingCellsCount;
 	private boolean alive;
 	
+	Cell(int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.alive = false;
+		this.nearbyLivingCellsCount = 0;
+	}
+	
 	public int getNearbyLivingCellsCount() {
 		return nearbyLivingCellsCount;
 	}
 	
 	public void setNearbyLivingCellsCount(int nearbyLivingCellsCount) {
 		this.nearbyLivingCellsCount = nearbyLivingCellsCount;
-	}
-	
-	
-	Cell(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.alive = false;
-		this.nearbyLivingCellsCount = 0;
 	}
 	
 	public boolean isAlive() {
@@ -33,19 +32,12 @@ public class Cell {
 	}
 	
 	public void paint(Graphics2D g2d) {
-		g2d.setColor(Color.black);
-		if (this.alive) {
-			g2d.setColor(Color.white);
-		}
+		if(!alive) {return;}
+		
+		g2d.setColor(Color.BLACK);
 		g2d.fillRect(this.x * Config.CELL_SIZE,
 					 this.y * Config.CELL_SIZE,
 					 Config.CELL_SIZE,
 					 Config.CELL_SIZE);
-		
-/*		g2d.setColor(Color.blue);
-		g2d.drawString("" + this.nearCellCount,
-					   this.x * Config.CELL_SIZE,
-					   this.y * Config.CELL_SIZE + 15);
-*/
 	}
 }

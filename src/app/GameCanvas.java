@@ -11,7 +11,6 @@ public class GameCanvas extends JComponent implements Runnable {
 	private Thread gameThread;
 	private boolean run;
 	private long oneFrameTime = 1_000_000_000 / Config.FRAME_PER_SECOND;
-	//	private boolean lowFPS = oneFrameTime > Config.FIXED_FPS;
 	private final Object threadPauseObject = new Object();
 	private int fps = 0;
 	private int tps = 0;
@@ -23,14 +22,12 @@ public class GameCanvas extends JComponent implements Runnable {
 	}
 	
 	public void init() {
-		cells = new Cell[Config.HEIGHT][Config.WIDTH];
+		cells = new Cell[Config.WIDTH][Config.HEIGHT];
 		gameSteps = 0;
 		run = false;
 		gameThread = new Thread(this);
-		camera = new Camera(new Dimension(Config.WIDTH * Config.CELL_SIZE,
-										  Config.HEIGHT * Config.CELL_SIZE));
-		camera.setPos((Config.WIDTH * Config.CELL_SIZE) / 2,
-					  (Config.HEIGHT * Config.CELL_SIZE) / 2);
+		camera = new Camera(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
+		camera.setPos((float) (Config.FRAME_WIDTH) / 2, (float) (Config.FRAME_HEIGHT) / 2);
 		mouseHandler = new MouseHandler(this);
 		
 		//todo нужно ли добавлять листенеры тут или надо перенести в майнФрейм???
@@ -43,8 +40,8 @@ public class GameCanvas extends JComponent implements Runnable {
 	}
 	
 	private void initCells() {
-		for (int i = 0; i < Config.HEIGHT; i++) {
-			for (int j = 0; j < Config.WIDTH; j++) {
+		for (int i = 0; i < Config.WIDTH; i++) {
+			for (int j = 0; j < Config.HEIGHT; j++) {
 				cells[i][j] = new Cell(i, j);
 			}
 		}
@@ -95,7 +92,6 @@ public class GameCanvas extends JComponent implements Runnable {
 	
 	public void setFrameCountPerSecond(int frameCount) {
 		oneFrameTime = 1_000_000_000 / (Math.max(frameCount, 1));
-//		lowFPS = oneFrameTime > Config.FIXED_FPS;
 	}
 	
 	public Cell getCell(int x, int y) {
@@ -110,13 +106,13 @@ public class GameCanvas extends JComponent implements Runnable {
 	
 	public void gameNextStep() {
 		// Count near cells
-		for (int x = 0; x < Config.HEIGHT; x++)
-			for (int y = 0; y < Config.WIDTH; y++)
+		for (int x = 0; x < Config.WIDTH; x++)
+			for (int y = 0; y < Config.HEIGHT; y++)
 				cells[x][y].setNearbyLivingCellsCount(getNearbyLivingCells(cells[x][y]));
 		
 		// Use the rules
-		for (int x = 0; x < Config.HEIGHT; x++)
-			for (int y = 0; y < Config.WIDTH; y++)
+		for (int x = 0; x < Config.WIDTH; x++)
+			for (int y = 0; y < Config.HEIGHT; y++)
 				useTheRules(cells[x][y]);
 		
 		gameSteps++;
@@ -154,7 +150,6 @@ public class GameCanvas extends JComponent implements Runnable {
 		long currentTime;
 		long deltaTime;
 		long lastTime = 0;
-//		long frameTime = 0;
 		long updateTime = 0;
 		long currentRateTimerTime;
 		long refreshRateTimer = 0;
@@ -177,27 +172,14 @@ public class GameCanvas extends JComponent implements Runnable {
 			currentRateTimerTime = System.currentTimeMillis();
 			
 			tickCounter++;
-			/*
-			if (lowFPS) {
-				frameTime += deltaTime;
-				if (frameTime > Config.FIXED_FPS) {
-					frameTime = 0;
-					frameCounter++;
-					
-					repaint();
-				}
-			}
-			*/
 			
 			if (updateTime > oneFrameTime) {
 				updateTime = 0;
 				
 				gameNextStep();
-
-//				if (!lowFPS) {
+				
 				frameCounter++;
 				repaint();
-//				}
 			}
 			
 			if (currentRateTimerTime > refreshRateTimer) {
@@ -214,34 +196,33 @@ public class GameCanvas extends JComponent implements Runnable {
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		
-		if (camera != null) {
-			camera.transform(g2d);
+		camera.transform(g2d);
+		{
+			g2d.setColor(Color.gray);
+			g2d.fillRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.WIDTH * Config.CELL_SIZE);
+			
+			for (int i = 0; i < Config.WIDTH; i++)
+				for (int j = 0; j < Config.HEIGHT; j++)
+					cells[i][j].paint(g2d);
+			
+			
+			if (!isRun()) {
+				g2d.setColor(Color.red);
+				g2d.drawRect(mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
+							 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
+							 Config.CELL_SIZE,
+							 Config.CELL_SIZE);
+				g2d.drawString(mouseHandler.getCellCoordinates().x + "," + mouseHandler
+									   .getCellCoordinates().y,
+							   mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
+							   mouseHandler.getCellCoordinates().y * Config.CELL_SIZE - 1);
+			}
 		}
-		
-		for (int i = 0; i < Config.HEIGHT; i++) {
-			for (int j = 0; j < Config.WIDTH; j++)
-				cells[i][j].paint(g2d);
-		}
-		
-		if (!isRun()) {
-			g2d.setColor(Color.red);
-			g2d.drawRect(mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
-						 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
-						 Config.CELL_SIZE,
-						 Config.CELL_SIZE);
-			g2d.drawString(mouseHandler.getCellCoordinates().x + "," + mouseHandler
-								   .getCellCoordinates().y,
-						   mouseHandler.getMousePos().x,
-						   mouseHandler.getMousePos().y - 1);
-		}
-		
-		if (camera != null) {
-			camera.restore(g2d);
-		}
+		camera.restore(g2d);
 		
 		// Debug
 		
-		g2d.setColor(Color.gray);
+		g2d.setColor(Color.BLACK);
 		g2d.drawString("tps: " + tps, 2, 10);
 		g2d.drawString("fps: " + fps, 2, 25);
 		g2d.drawString("camera: " + camera, 2, 40);

@@ -22,8 +22,7 @@ public class MainFrame extends JFrame {
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		gameCanvas = new GameCanvas();
-		gameCanvas.setPreferredSize(new Dimension(Config.WIDTH * Config.CELL_SIZE,
-												  Config.HEIGHT * Config.CELL_SIZE));
+		gameCanvas.setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
 		ControlBar controlBar = new ControlBar(gameCanvas);
 		TemplateBar templateBar = new TemplateBar();
 		
