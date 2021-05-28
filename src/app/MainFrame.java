@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
 		gameCanvas = new GameCanvas();
 		gameCanvas.setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
 		ControlBar controlBar = new ControlBar(gameCanvas);
-		TemplateBar templateBar = new TemplateBar();
+		TemplateBar templateBar = new TemplateBar(gameCanvas);
 		
 		add(BorderLayout.CENTER, gameCanvas);
 		add(BorderLayout.PAGE_START, controlBar);
