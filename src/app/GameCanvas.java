@@ -1,7 +1,5 @@
 package app;
 
-import app.menu.Debug;
-
 import javax.swing.*;
 import java.awt.*;
 

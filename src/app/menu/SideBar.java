@@ -1,23 +1,24 @@
 package app.menu;
 
+import app.Debug;
 import app.GameCanvas;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class TemplateBar extends JPanel {
+public class SideBar extends JPanel {
 	private static final String BTN_CLEAR = "Clear";
 	private static final String BTN_RANDOM = "Random";
 	private static final String BTN_DEBUG = "Debug";
 	private static GameCanvas gameCanvas;
 	
-	public TemplateBar(GameCanvas gameCanvas) {
+	public SideBar(GameCanvas gameCanvas) {
 		super();
 		setBackground(Color.darkGray);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
-		TemplateBar.gameCanvas = gameCanvas;
+		SideBar.gameCanvas = gameCanvas;
 		
 		JButton btnClear = new JButton(new BtnAction());
 		btnClear.setName(BTN_CLEAR);

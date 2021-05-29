@@ -1,7 +1,7 @@
 package app;
 
 import app.menu.ControlBar;
-import app.menu.TemplateBar;
+import app.menu.SideBar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,11 +24,11 @@ public class MainFrame extends JFrame {
 		gameCanvas = new GameCanvas();
 		gameCanvas.setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
 		ControlBar controlBar = new ControlBar(gameCanvas);
-		TemplateBar templateBar = new TemplateBar(gameCanvas);
+		SideBar sideBar = new SideBar(gameCanvas);
 		
 		add(BorderLayout.CENTER, gameCanvas);
 		add(BorderLayout.PAGE_START, controlBar);
-		add(BorderLayout.LINE_START, templateBar);
+		add(BorderLayout.LINE_START, sideBar);
 		
 		pack();
 		setLocationRelativeTo(null);

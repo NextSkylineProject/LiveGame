@@ -1,6 +1,4 @@
-package app.menu;
-
-import app.Config;
+package app;
 
 import java.awt.*;
 import java.util.*;
