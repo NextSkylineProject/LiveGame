@@ -1,6 +1,6 @@
 package app;
 
-import app.menu.ControlBar;
+import app.menu.Debug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +10,6 @@ public class GameCanvas extends JComponent implements Runnable {
 	private boolean run;
 	private long oneFrameTime = 1_000_000_000 / Config.FRAME_PER_SECOND;
 	private final Object threadPauseObject = new Object();
-	private int fps = 0;
-	private int tps = 0;
 	private Camera camera;
 	private MouseHandler mouseHandler;
 	private GameManager gameManager;
@@ -41,10 +39,10 @@ public class GameCanvas extends JComponent implements Runnable {
 		run = true;
 		
 		if (!gameThread.isAlive()) {
-			System.out.println("Start mainThread");
+			Debug.print("Start mainThread");
 			gameThread.start();
 		} else {
-			System.out.println("Resume mainThread");
+			Debug.print("Resume mainThread");
 			synchronized (threadPauseObject) {
 				threadPauseObject.notify();
 			}
@@ -52,7 +50,7 @@ public class GameCanvas extends JComponent implements Runnable {
 	}
 	
 	public void pauseGame() {
-		System.out.println("Paused mainThread");
+		Debug.print("Paused mainThread");
 		run = false;
 	}
 	
@@ -80,12 +78,13 @@ public class GameCanvas extends JComponent implements Runnable {
 	public void clearField() {
 		gameManager.clearField();
 		repaint();
-		pauseGame();
+		Debug.print("Clear all cells");
 	}
 	
 	public void randomField() {
 		gameManager.randomField();
 		repaint();
+		Debug.print("Random all cells");
 	}
 	
 	@Override
@@ -127,10 +126,12 @@ public class GameCanvas extends JComponent implements Runnable {
 			
 			if (currentRateTimerTime > refreshRateTimer) {
 				refreshRateTimer = currentRateTimerTime + 1_000;
-				fps = frameCounter;
-				tps = tickCounter;
 				frameCounter = 0;
 				tickCounter = 0;
+				
+				Debug.showString("FPS", String.valueOf(frameCounter));
+				Debug.showString("TPS", String.valueOf(tickCounter));
+				Debug.showString("Camera", camera.toString());
 			}
 		}
 	}
@@ -162,11 +163,6 @@ public class GameCanvas extends JComponent implements Runnable {
 		}
 		camera.restore(g2d);
 		
-		// Debug
-		
-		g2d.setColor(Color.BLACK);
-		g2d.drawString("tps: " + tps, 2, 10);
-		g2d.drawString("fps: " + fps, 2, 25);
-		g2d.drawString("camera: " + camera, 2, 40);
+		Debug.draw(g2d);
 	}
 }

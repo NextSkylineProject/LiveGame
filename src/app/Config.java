@@ -7,4 +7,5 @@ public class Config {
 	public static final int FRAME_WIDTH = 700;
 	public static final int FRAME_HEIGHT = 700;
 	public static final int FRAME_PER_SECOND = 20;
+	public static final boolean DEBUG = true;
 }

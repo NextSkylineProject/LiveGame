@@ -1,7 +1,6 @@
 package app.menu;
 
 import app.GameCanvas;
-import app.GameManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +9,7 @@ import java.awt.event.ActionEvent;
 public class TemplateBar extends JPanel {
 	private static final String BTN_CLEAR = "Clear";
 	private static final String BTN_RANDOM = "Random";
+	private static final String BTN_DEBUG = "Debug";
 	private static GameCanvas gameCanvas;
 	
 	public TemplateBar(GameCanvas gameCanvas) {
@@ -29,8 +29,15 @@ public class TemplateBar extends JPanel {
 		btnRandom.setText(BTN_RANDOM);
 		btnRandom.setFocusable(false);
 		
+		JButton btnDebug = new JButton(new BtnAction());
+		btnDebug.setName(BTN_DEBUG);
+		btnDebug.setText(BTN_DEBUG);
+		btnDebug.setFocusable(false);
+		
+		
 		add(btnClear);
 		add(btnRandom);
+		add(btnDebug);
 	}
 	
 	private static class BtnAction extends AbstractAction {
@@ -38,10 +45,10 @@ public class TemplateBar extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			JButton btn = (JButton) e.getSource();
 			
-			if (btn.getName().equals(BTN_CLEAR)) {
-				gameCanvas.clearField();
-			} else if (btn.getName().equals(BTN_RANDOM)) {
-				gameCanvas.randomField();
+			switch (btn.getName()) {
+				case BTN_CLEAR -> gameCanvas.clearField();
+				case BTN_RANDOM -> gameCanvas.randomField();
+				case BTN_DEBUG -> Debug.On(!Debug.isOn());
 			}
 		}
 	}
