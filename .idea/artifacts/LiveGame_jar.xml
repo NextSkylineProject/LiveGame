@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="LiveGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/LiveGame_jar</output-path>
+    <root id="archive" name="LiveGame.jar">
+      <element id="module-output" name="LiveGame" />
+    </root>
+  </artifact>
+</component>

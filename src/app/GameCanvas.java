@@ -124,12 +124,13 @@ public class GameCanvas extends JComponent implements Runnable {
 			
 			if (currentRateTimerTime > refreshRateTimer) {
 				refreshRateTimer = currentRateTimerTime + 1_000;
-				frameCounter = 0;
-				tickCounter = 0;
 				
 				Debug.showString("FPS", String.valueOf(frameCounter));
 				Debug.showString("TPS", String.valueOf(tickCounter));
 				Debug.showString("Camera", camera.toString());
+				
+				frameCounter = 0;
+				tickCounter = 0;
 			}
 		}
 	}
