@@ -37,12 +37,12 @@ public class Debug {
 	}
 	
 	public static void draw(Graphics2D g) {
-		if (!on)
+		if (!on || varList.isEmpty())
 			return;
 		g.setColor(color);
 		
 		int n = 0;
-		for (Map.Entry entry : varList.entrySet()) {
+		for (Map.Entry<String, String> entry : varList.entrySet()) {
 			n++;
 			g.drawString("" + entry.getKey() + ": " + entry.getValue(), 2, 12 * n);
 		}

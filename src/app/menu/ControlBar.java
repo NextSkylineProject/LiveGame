@@ -29,7 +29,7 @@ public class ControlBar extends JPanel {
 													Config.FRAME_PER_SECOND,
 													1,
 													1,
-													120);
+													Config.MAX_FRAME_PER_SECOND);
 		scrollGameSpeed.addAdjustmentListener(e -> {
 			labelGameSpeedN.setText(String.valueOf(scrollGameSpeed.getValue()));
 			gameCanvas.setFrameCountPerSecond(scrollGameSpeed.getValue());
