@@ -5,13 +5,12 @@ import app.menu.SideBar;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
-
-/*TODO залить все на git и разобраться с ним
- */
 
 public class MainFrame extends JFrame {
-	GameCanvas gameCanvas;
+	private final GameCanvas gameCanvas;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(MainFrame::new);
@@ -20,9 +19,10 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		super("Live Game");
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
+		addComponentListener(new ComponentHandler());
 		
 		gameCanvas = new GameCanvas();
-		gameCanvas.setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
 		ControlBar controlBar = new ControlBar(gameCanvas);
 		SideBar sideBar = new SideBar(gameCanvas);
 		
@@ -36,5 +36,11 @@ public class MainFrame extends JFrame {
 		
 		gameCanvas.requestFocus();
 		gameCanvas.init();
+	}
+	
+	private class ComponentHandler extends ComponentAdapter {
+		public void componentResized(ComponentEvent evt) {
+			gameCanvas.updateCanvasSize();
+		}
 	}
 }

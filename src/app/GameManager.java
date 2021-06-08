@@ -2,13 +2,12 @@ package app;
 
 import app.menu.ControlBar;
 
-import java.awt.*;
 import java.util.Random;
 
 public class GameManager {
-	private Cell[][] cells;
+	private final Cell[][] cells;
 	private int gameSteps;
-	private Random random;
+	private final Random random;
 	
 	GameManager() {
 		cells = new Cell[Config.WIDTH][Config.HEIGHT];
@@ -61,6 +60,9 @@ public class GameManager {
 	}
 	
 	public Cell getCell(int x, int y) {
+		if (x < 0 || x > Config.WIDTH || y < 0 || y > Config.HEIGHT) {
+			return cells[0][0];
+		}
 		return cells[x][y];
 	}
 	
@@ -80,6 +82,8 @@ public class GameManager {
 	}
 	
 	private int getNearbyLivingCells(Cell cell) {
+		if (cell == null)
+			return 0;
 		int n = 0;
 		for (int sx = -1; sx <= +1; sx++)
 			for (int sy = -1; sy <= +1; sy++)
@@ -97,9 +101,7 @@ public class GameManager {
 		
 		if (!cell.isAlive() && n == 3) { // Born
 			cell.setAlive(true);
-		} else if (cell.isAlive() && (n == 2 || n == 3)) { // Live
-			cell.setAlive(true);
-		} else { // Dying
+		} else if (cell.isAlive() && (n != 2 && n != 3)) { // Died
 			cell.setAlive(false);
 		}
 	}

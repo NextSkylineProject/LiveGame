@@ -62,9 +62,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if (e.getPreciseWheelRotation() < -0.4) {
 			gameCanvas.getCamera().scale(0.02d);
+			gameCanvas.getCamera().updatePos();
 			gameCanvas.repaint();
 		} else if (e.getPreciseWheelRotation() > 0.4) {
 			gameCanvas.getCamera().scale(-0.02d);
+			gameCanvas.getCamera().updatePos();
 			gameCanvas.repaint();
 		}
 	}
@@ -97,10 +99,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
 		cellX = (int) cellTempX;
 		cellY = (int) cellTempY;
 		
-		// Remove this part if use lowFPS
 		if (!gameCanvas.isRun()) {
 			gameCanvas.repaint();
 		}
-		//
 	}
 }

@@ -23,10 +23,12 @@ public class KeyHandler implements KeyListener {
 			}
 			case 61 -> {
 				gameCanvas.getCamera().scale(0.1);
+				gameCanvas.getCamera().updatePos();
 				gameCanvas.repaint();
 			}
 			case 45 -> {
 				gameCanvas.getCamera().scale(-0.1);
+				gameCanvas.getCamera().updatePos();
 				gameCanvas.repaint();
 			}
 		}

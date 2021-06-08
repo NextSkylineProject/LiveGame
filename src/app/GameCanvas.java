@@ -19,8 +19,9 @@ public class GameCanvas extends JComponent implements Runnable {
 	public void init() {
 		run = false;
 		gameThread = new Thread(this);
-		camera = new Camera(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
-		camera.setPos((float) (Config.FRAME_WIDTH) / 2, (float) (Config.FRAME_HEIGHT) / 2);
+		camera = new Camera(getSize());
+		camera.setPos((float) getSize().width / 2, (float) getSize().height / 2);
+		camera.setBounds(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
 		mouseHandler = new MouseHandler(this);
 		gameManager = new GameManager();
 		
@@ -64,7 +65,13 @@ public class GameCanvas extends JComponent implements Runnable {
 		return camera;
 	}
 	
+	public void updateCanvasSize() {
+		camera.setScreenSize(getSize());
+		camera.updatePos();
+	}
+	
 	// Game functions
+	
 	public Cell getCell(int x, int y) {
 		return gameManager.getCell(x, y);
 	}
@@ -143,6 +150,8 @@ public class GameCanvas extends JComponent implements Runnable {
 		{
 			g2d.setColor(Color.gray);
 			g2d.fillRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
+			g2d.setColor(Color.red);
+			g2d.drawRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
 			
 			for (int i = 0; i < Config.WIDTH; i++)
 				for (int j = 0; j < Config.HEIGHT; j++)
@@ -154,13 +163,17 @@ public class GameCanvas extends JComponent implements Runnable {
 							 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
 							 Config.CELL_SIZE,
 							 Config.CELL_SIZE);
-				g2d.drawString(mouseHandler.getCellCoordinates().x + "," + mouseHandler
-									   .getCellCoordinates().y,
-							   mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
-							   mouseHandler.getCellCoordinates().y * Config.CELL_SIZE - 1);
 			}
 		}
 		camera.restore(g2d);
+		
+		if (!isRun()) {
+			g2d.setColor(Color.red);
+			g2d.drawString(mouseHandler.getCellCoordinates().x + "," + mouseHandler
+								   .getCellCoordinates().y,
+						   mouseHandler.getMousePos().x,
+						   mouseHandler.getMousePos().y - 1);
+		}
 		
 		Debug.draw(g2d);
 	}
