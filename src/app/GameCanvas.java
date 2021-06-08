@@ -167,14 +167,6 @@ public class GameCanvas extends JComponent implements Runnable {
 		}
 		camera.restore(g2d);
 		
-		if (!isRun()) {
-			g2d.setColor(Color.red);
-			g2d.drawString(mouseHandler.getCellCoordinates().x + "," + mouseHandler
-								   .getCellCoordinates().y,
-						   mouseHandler.getMousePos().x,
-						   mouseHandler.getMousePos().y - 1);
-		}
-		
 		Debug.draw(g2d);
 	}
 }
