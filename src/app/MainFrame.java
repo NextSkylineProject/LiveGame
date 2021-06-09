@@ -18,6 +18,8 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		super("Live Game");
+		Config.load();
+		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
 		addComponentListener(new ComponentHandler());
