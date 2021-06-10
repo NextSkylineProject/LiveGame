@@ -3,6 +3,8 @@
     <output-path>$PROJECT_DIR$/out/artifacts/LiveGame_jar</output-path>
     <root id="archive" name="LiveGame.jar">
       <element id="module-output" name="LiveGame" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/luaj-3.0.1/lib/luaj-jse-3.0.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="luaj-jse-3.0.1" />
     </root>
   </artifact>
 </component>
