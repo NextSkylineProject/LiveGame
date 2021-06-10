@@ -37,6 +37,7 @@ public class SideBar extends JPanel {
 		
 		TemplateList templateList = new TemplateList();
 		
+		TemplateList templateList = new TemplateList(gameCanvas);
 		
 		
 		add(btnClear);

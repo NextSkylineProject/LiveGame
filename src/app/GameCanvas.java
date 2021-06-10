@@ -1,5 +1,7 @@
 package app;
 
+import app.menu.TemplateList;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,6 +16,9 @@ public class GameCanvas extends JComponent implements Runnable {
 	private final Color colorCell = new Color(0x149CF8);
 	private final Color colorBackground = new Color(0x393939);
 	private final Color colorBorder = new Color(0xF87B7B);
+	private final Color colorTemplate = new Color(0xAD149CF8, true);
+	private boolean templatePlaceModOn = false;
+	private TemplateList.Template curTemplate;
 	
 	GameCanvas() {
 		super();
@@ -95,6 +100,32 @@ public class GameCanvas extends JComponent implements Runnable {
 		Debug.print("Random all cells");
 	}
 	
+	public void placeTemplateStart(TemplateList.Template template) {
+		templatePlaceModOn = true;
+		curTemplate = template;
+	}
+	
+	public void placeTemplate() {
+		if (!templatePlaceModOn || curTemplate == null) {return;}
+		
+		int mx = mouseHandler.getCellCoordinates().x;
+		int my = mouseHandler.getCellCoordinates().y;
+		
+		for (Cell cell : curTemplate.getCells()) {
+			Cell realCell = getCell(mx + cell.x, my + cell.y);
+			realCell.setAlive(true);
+		}
+	}
+	
+	public void placeTemplateEnd() {
+		templatePlaceModOn = false;
+		curTemplate = null;
+	}
+	
+	public boolean placeTemplateModIsOn() {
+		return templatePlaceModOn;
+	}
+	
 	@Override
 	public void run() {
 		long currentTime;
@@ -162,12 +193,18 @@ public class GameCanvas extends JComponent implements Runnable {
 					if (!cell.isAlive()) {
 						continue;
 					}
-					g2d.setColor(colorCell);
-					g2d.fillRect(cell.x * Config.CELL_SIZE,
-								 cell.y * Config.CELL_SIZE,
-								 Config.CELL_SIZE,
-								 Config.CELL_SIZE);
+					drawCell(g2d, cell);
 				}
+			
+			if (placeTemplateModIsOn()) {
+				for (Cell cell : curTemplate.getCells()) {
+					drawCell(g2d,
+							 cell,
+							 mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
+							 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
+							 colorTemplate);
+				}
+			}
 			
 			if (!isRun()) {
 				g2d.setColor(colorBorder);
@@ -180,5 +217,17 @@ public class GameCanvas extends JComponent implements Runnable {
 		camera.restore(g2d);
 		
 		Debug.draw(g2d);
+	}
+	
+	private void drawCell(Graphics2D g, Cell cell, int sx, int sy, Color color) {
+		g.setColor(color);
+		g.fillRect(sx + cell.x * Config.CELL_SIZE,
+				   sy + cell.y * Config.CELL_SIZE,
+				   Config.CELL_SIZE,
+				   Config.CELL_SIZE);
+	}
+	
+	private void drawCell(Graphics2D g, Cell cell) {
+		drawCell(g, cell, 0, 0, colorCell);
 	}
 }

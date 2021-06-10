@@ -40,9 +40,17 @@ public class MouseHandler implements MouseListener, MouseMotionListener, MouseWh
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (!gameCanvas.isRun() && !dragged) {
-			gameCanvas.getCell(cellX, cellY).setAlive(!gameCanvas.getCell(cellX, cellY).isAlive());
-			gameCanvas.repaint();
+		int btn = e.getButton();
+		if (btn == MouseEvent.BUTTON1) {
+			if (gameCanvas.placeTemplateModIsOn()) {
+				gameCanvas.placeTemplate();
+			} else if (!gameCanvas.isRun() && !dragged) {
+				gameCanvas.getCell(cellX, cellY)
+						  .setAlive(!gameCanvas.getCell(cellX, cellY).isAlive());
+				gameCanvas.repaint();
+			}
+		} else if(btn == MouseEvent.BUTTON3) {
+			gameCanvas.placeTemplateEnd();
 		}
 	}
 	

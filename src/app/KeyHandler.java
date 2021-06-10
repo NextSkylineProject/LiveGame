@@ -12,9 +12,10 @@ public class KeyHandler implements KeyListener {
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-//		System.out.println(e.getKeyCode());
+		Debug.print("Key code: " + e.getKeyCode());
 		// space 32
 		// + - 61 45
+		// escape - 27
 		int kc = e.getKeyCode();
 		
 		switch (kc) {
@@ -30,6 +31,9 @@ public class KeyHandler implements KeyListener {
 				gameCanvas.getCamera().scale(-0.1);
 				gameCanvas.getCamera().updatePos();
 				gameCanvas.repaint();
+			}
+			case 27 -> {
+				gameCanvas.placeTemplateEnd();
 			}
 		}
 	}
