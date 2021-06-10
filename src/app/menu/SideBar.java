@@ -35,10 +35,14 @@ public class SideBar extends JPanel {
 		btnDebug.setText(BTN_DEBUG);
 		btnDebug.setFocusable(false);
 		
+		TemplateList templateList = new TemplateList();
+		
+		
 		
 		add(btnClear);
 		add(btnRandom);
 		add(btnDebug);
+		add(templateList);
 	}
 	
 	private static class BtnAction extends AbstractAction {
