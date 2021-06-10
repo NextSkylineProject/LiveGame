@@ -11,6 +11,9 @@ public class GameCanvas extends JComponent implements Runnable {
 	private Camera camera;
 	private MouseHandler mouseHandler;
 	private GameManager gameManager;
+	private final Color colorCell = new Color(0x149CF8);
+	private final Color colorBackground = new Color(0x393939);
+	private final Color colorBorder = new Color(0xF87B7B);
 	
 	GameCanvas() {
 		super();
@@ -148,17 +151,26 @@ public class GameCanvas extends JComponent implements Runnable {
 		
 		camera.transform(g2d);
 		{
-			g2d.setColor(Color.gray);
+			g2d.setColor(colorBackground);
 			g2d.fillRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
-			g2d.setColor(Color.red);
+			g2d.setColor(colorBorder);
 			g2d.drawRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
 			
 			for (int i = 0; i < Config.WIDTH; i++)
-				for (int j = 0; j < Config.HEIGHT; j++)
-					gameManager.getCell(i, j).paint(g2d);
+				for (int j = 0; j < Config.HEIGHT; j++) {
+					Cell cell = gameManager.getCell(i, j);
+					if (!cell.isAlive()) {
+						continue;
+					}
+					g2d.setColor(colorCell);
+					g2d.fillRect(cell.x * Config.CELL_SIZE,
+								 cell.y * Config.CELL_SIZE,
+								 Config.CELL_SIZE,
+								 Config.CELL_SIZE);
+				}
 			
 			if (!isRun()) {
-				g2d.setColor(Color.red);
+				g2d.setColor(colorBorder);
 				g2d.drawRect(mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
 							 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
 							 Config.CELL_SIZE,

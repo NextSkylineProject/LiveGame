@@ -1,7 +1,5 @@
 package app;
 
-import java.awt.*;
-
 public class Cell {
 	public final int x;
 	public final int y;
@@ -29,15 +27,5 @@ public class Cell {
 	
 	public void setAlive(boolean alive) {
 		this.alive = alive;
-	}
-	
-	public void paint(Graphics2D g2d) {
-		if(!alive) {return;}
-		
-		g2d.setColor(Color.BLACK);
-		g2d.fillRect(this.x * Config.CELL_SIZE,
-					 this.y * Config.CELL_SIZE,
-					 Config.CELL_SIZE,
-					 Config.CELL_SIZE);
 	}
 }
