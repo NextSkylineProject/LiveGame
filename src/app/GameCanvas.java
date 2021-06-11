@@ -182,36 +182,13 @@ public class GameCanvas extends JComponent implements Runnable {
 		
 		camera.transform(g2d);
 		{
-			g2d.setColor(colorBackground);
-			g2d.fillRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
-			g2d.setColor(colorBorder);
-			g2d.drawRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
-			
-			for (int i = 0; i < Config.WIDTH; i++)
-				for (int j = 0; j < Config.HEIGHT; j++) {
-					Cell cell = gameManager.getCell(i, j);
-					if (!cell.isAlive()) {
-						continue;
-					}
-					drawCell(g2d, cell);
-				}
-			
+			drawBackground(g2d);
+			drawCells(g2d);
 			if (placeTemplateModIsOn()) {
-				for (Cell cell : curTemplate.getCells()) {
-					drawCell(g2d,
-							 cell,
-							 mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
-							 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
-							 colorTemplate);
-				}
+				drawTemplate(g2d);
 			}
-			
 			if (!isRun()) {
-				g2d.setColor(colorBorder);
-				g2d.drawRect(mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
-							 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
-							 Config.CELL_SIZE,
-							 Config.CELL_SIZE);
+				drawMouse(g2d);
 			}
 		}
 		camera.restore(g2d);
@@ -229,5 +206,41 @@ public class GameCanvas extends JComponent implements Runnable {
 	
 	private void drawCell(Graphics2D g, Cell cell) {
 		drawCell(g, cell, 0, 0, colorCell);
+	}
+	
+	private void drawBackground(Graphics2D g) {
+		g.setColor(colorBackground);
+		g.fillRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
+		g.setColor(colorBorder);
+		g.drawRect(0, 0, Config.WIDTH * Config.CELL_SIZE, Config.HEIGHT * Config.CELL_SIZE);
+	}
+	
+	private void drawCells(Graphics2D g) {
+		for (int i = 0; i < Config.WIDTH; i++)
+			for (int j = 0; j < Config.HEIGHT; j++) {
+				Cell cell = gameManager.getCell(i, j);
+				if (!cell.isAlive()) {
+					continue;
+				}
+				drawCell(g, cell);
+			}
+	}
+	
+	private void drawTemplate(Graphics2D g) {
+		for (Cell cell : curTemplate.getCells()) {
+			drawCell(g,
+					 cell,
+					 mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
+					 mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
+					 colorTemplate);
+		}
+	}
+	
+	private void drawMouse(Graphics2D g) {
+		g.setColor(colorBorder);
+		g.drawRect(mouseHandler.getCellCoordinates().x * Config.CELL_SIZE,
+				   mouseHandler.getCellCoordinates().y * Config.CELL_SIZE,
+				   Config.CELL_SIZE,
+				   Config.CELL_SIZE);
 	}
 }
