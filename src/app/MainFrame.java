@@ -1,5 +1,6 @@
 package app;
 
+import app.lua.LuaState;
 import app.menu.ControlBar;
 import app.menu.SideBar;
 
@@ -18,7 +19,9 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		super("Live Game");
+		LuaState.init();
 		Config.load();
+		Debug.On(Config.DEBUG);
 		
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(Config.FRAME_WIDTH, Config.FRAME_HEIGHT));
