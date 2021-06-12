@@ -2,19 +2,15 @@ package app.lua;
 
 import app.Debug;
 import org.luaj.vm2.Globals;
-import org.luaj.vm2.LoadState;
-import org.luaj.vm2.compiler.LuaC;
-import org.luaj.vm2.lib.jse.JseBaseLib;
+import org.luaj.vm2.LuaValue;
+import org.luaj.vm2.lib.jse.JsePlatform;
 
 public class LuaState {
 	public static final String LUA_PATH = "app/luaScripts/";
 	private static Globals globals;
 	
 	public static void init() {
-		globals = new Globals();
-		globals.load(new JseBaseLib());
-		LoadState.install(globals);
-		LuaC.install(globals);
+		globals = JsePlatform.standardGlobals();
 	}
 	
 	public static Globals loadFile(String fileName) {
@@ -26,4 +22,11 @@ public class LuaState {
 		return globals;
 	}
 	
+	public static void addLib(LuaValue lib) {
+		globals.load(lib);
+	}
+	
+	public static void addFunc(String funcName, LuaValue funcClass) {
+		globals.set(funcName, funcClass);
+	}
 }

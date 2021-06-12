@@ -35,8 +35,6 @@ public class SideBar extends JPanel {
 		btnDebug.setText(BTN_DEBUG);
 		btnDebug.setFocusable(false);
 		
-		TemplateList templateList = new TemplateList();
-		
 		TemplateList templateList = new TemplateList(gameCanvas);
 		
 		
@@ -44,6 +42,8 @@ public class SideBar extends JPanel {
 		add(btnRandom);
 		add(btnDebug);
 		add(templateList);
+		
+		templateList.load();
 	}
 	
 	private static class BtnAction extends AbstractAction {

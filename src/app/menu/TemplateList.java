@@ -2,6 +2,7 @@ package app.menu;
 
 import app.Cell;
 import app.GameCanvas;
+import app.lua.TemplateLoader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +15,7 @@ public class TemplateList extends JPanel {
 	HashMap<String, Template> templates;
 	ArrayList<JButton> buttons;
 	private boolean btnOn;
-	private GameCanvas gameCanvas;
+	private final GameCanvas gameCanvas;
 	
 	TemplateList(GameCanvas gameCanvas) {
 		super();
@@ -30,9 +31,19 @@ public class TemplateList extends JPanel {
 		btnOn = true;
 	}
 	
-	public void addTemplate(String name, Template template) {
-		templates.put(name, template);
-		
+	public void load() {
+		ArrayList<Template> loadedTemplates = TemplateLoader.load();
+		for (Template temp : loadedTemplates) {
+			regTemplate(temp);
+		}
+	}
+	
+	public void regTemplate(Template template) {
+		templates.put(template.getName(), template);
+		createButton(template.getName());
+	}
+	
+	private void createButton(String name) {
 		JButton btn = new JButton(new BtnAction());
 		btn.setName(name);
 		btn.setText(name);
@@ -52,6 +63,11 @@ public class TemplateList extends JPanel {
 	
 	public static class Template {
 		private final ArrayList<Cell> array = new ArrayList<>(10);
+		private final String name;
+		
+		public Template(String name) {
+			this.name = name;
+		}
 		
 		public void addCell(int x, int y) {
 			Cell cell = new Cell(x, y);
@@ -61,6 +77,10 @@ public class TemplateList extends JPanel {
 		
 		public ArrayList<Cell> getCells() {
 			return array;
+		}
+		
+		public String getName() {
+			return name;
 		}
 	}
 	

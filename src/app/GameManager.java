@@ -23,24 +23,6 @@ public class GameManager {
 				cells[i][j] = new Cell(i, j);
 			}
 		}
-		
-		cells[10][10].setAlive(true);
-		cells[9][11].setAlive(true);
-		cells[10][11].setAlive(true);
-		cells[11][11].setAlive(true);
-		cells[16][10].setAlive(true);
-		cells[15][11].setAlive(true);
-		cells[16][11].setAlive(true);
-		cells[17][11].setAlive(true);
-		
-		cells[19][29].setAlive(true);
-		cells[20][30].setAlive(true);
-		cells[21][30].setAlive(true);
-		cells[22][30].setAlive(true);
-		cells[23][30].setAlive(true);
-		cells[23][29].setAlive(true);
-		cells[23][28].setAlive(true);
-		cells[22][27].setAlive(true);
 	}
 	
 	public void clearField() {
