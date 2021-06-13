@@ -33,7 +33,6 @@ public class GameCanvas extends JComponent implements Runnable {
 		mouseHandler = new MouseHandler(this);
 		gameManager = new GameManager();
 		
-		//todo нужно ли добавлять листенеры тут или надо перенести в майнФрейм???
 		addKeyListener(new KeyHandler(this));
 		addMouseListener(mouseHandler);
 		addMouseMotionListener(mouseHandler);

@@ -29,7 +29,6 @@ public class TemplateLoader {
 			this.globals = globals.checkglobals();
 			this.globals.set("RegisterTemplate", new LF_RegisterTemplate());
 			this.globals.set("cell", new LF_cell());
-//			var2.get("package").get("loaded").set("io", var3);
 			return null;
 		}
 		

@@ -6,6 +6,6 @@ Config = {
     ["HEIGHT"] = 150;
     ["FRAME_HEIGHT"] = 500;
     ["FRAME_PER_SECOND"] = 15;
-    ["DEBUG"] = true;
+    ["DEBUG"] = false;
     ["MAX_FRAME_PER_SECOND"] = 200;
 }
